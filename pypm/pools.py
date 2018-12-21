@@ -13,22 +13,22 @@ def f(x):
 
 def pool_simple():
     start = time.time()
-    pool = multiprocessing.Pool(processes=4)
+    pool = multiprocessing.Pool(processes=10)
     print [i for i in pool.map(f, range(10))]
     print ('used {}...'.format(time.time()-start))
 
 
 def pool_result():
+    start = time.time()
     res = list()
-    pool = multiprocessing.Pool(processes=4)
-    for i in range(4):
+    pool = multiprocessing.Pool(processes=10)
+    for i in range(10):
         res.append(pool.apply_async(f, (i,)))
     pool.close()
     pool.join()
-    for i in res:
-        print i.get(timeout=1)
-
+    print [i.get(timeout=1) for i in res]
+    print ('used {}...'.format(time.time()-start))
 
 if __name__ == '__main__':
-    pool_simple()
-    # pool_result()
+   #  pool_simple()
+   pool_result()

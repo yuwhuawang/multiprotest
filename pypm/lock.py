@@ -7,21 +7,16 @@ import time
 
 
 def worker(lock, f):
-    lock.acquire()
-    try:
-        fs = open(f, 'a+')
-        n = 10
-        while n > 1:
-            fs.write("Lock acquired by {}\n".format(os.getpid()))
-            n -= 1
-        fs.close()
-    finally:
-        lock.release()
-
+	fs = open(f, 'a+')
+	for i in range(10):
+	fs = open(f, 'a+')
+	time.sleep(0.5)
+    	fs.write("Lock acquired by {}\n".format(os.getpid()))
+    	fs.close()
 
 def lock_process():
     lock = multiprocessing.Lock()
-    f = "/data/wangyuehua/file.txt"
+    f = "./file.txt"
     w1 = multiprocessing.Process(target=worker, args=(lock, f))
     w2 = multiprocessing.Process(target=worker, args=(lock, f))
     w1.start()
